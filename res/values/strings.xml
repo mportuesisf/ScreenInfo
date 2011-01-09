@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">ScreenInfo</string>
+
+	<string name="device_label">Device Name:</string>
+	<string name="os_version_label">Android Version:</string>
+	<string name="width_pixels_label">Width:</string>
+	<string name="height_pixels_label">Height:</string>
+	<string name="screen_dpi_label">Screen DPI:</string>
+	<string name="actual_xdpi_label">X DPI:</string>
+	<string name="actual_ydpi_label">Y DPI</string>
+	<string name="logical_density_label">Logical Density:</string>
+	<string name="font_scale_density_label">Font Scale Density:</string>
+	<string name="computed_diagonal_size_inches_label">Diagonal Size (inches):</string>
+	<string name="computed_diagonal_size_mm_label">Diagonal Size (mm):</string>
+
+</resources>

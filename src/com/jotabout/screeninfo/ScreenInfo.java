@@ -1,16 +1,25 @@
 package com.jotabout.screeninfo;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.View;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.TextView;
-import com.jotabout.screeninfo.R;
 
 public class ScreenInfo extends Activity {
+	
+	private final static int ABOUT_DIALOG = 1;
+	private final static int MENU_ABOUT = Menu.FIRST;
+	Dialog mAbout;
+	
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -63,4 +72,41 @@ public class ScreenInfo extends Activity {
         ((TextView) findViewById(R.id.computed_diagonal_size_inches)).setText( Double.toString(diagonalSizeInches) );
         ((TextView) findViewById(R.id.computed_diagonal_size_mm)).setText( Double.toString(diagonalSizeMillimeters) );
     }
+
+	@Override
+	protected Dialog onCreateDialog(int id) {
+		mAbout = null;
+
+		switch( id ) {
+		case ABOUT_DIALOG:
+	        mAbout = new Dialog(this);
+	        mAbout.setContentView(R.layout.about_dialog);
+	        mAbout.setTitle(R.string.about_title);
+	        ((Button) mAbout.findViewById(R.id.about_dismiss)).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					mAbout.dismiss();
+				}
+	        });
+		}
+
+		return mAbout;
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		menu.add( 0, MENU_ABOUT, 0, R.string.about_menu );
+		return true;
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch( item.getItemId() ) {
+		case MENU_ABOUT:
+			showDialog(ABOUT_DIALOG);
+			return true;
+		}
+		
+		return false;
+	}
 }

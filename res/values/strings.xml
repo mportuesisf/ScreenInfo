@@ -2,6 +2,13 @@
 <resources>
     <string name="app_name">ScreenInfo</string>
 
+    <string name="about_menu">About</string>
+    <string name="about_title">ScreenInfo</string>
+    <string name="about">A simple app to display the screen configuration parameters for an Android device.</string>
+    <string name="email">Email: info@jotabout.com</string>
+    <string name="blog">Blog: digitaldumptruck.jotabout.com</string>
+    <string name="about_dismiss">That\'s nice</string>
+        
 	<string name="device_label">Device Name:</string>
 	<string name="os_version_label">Android Version:</string>
 	<string name="width_pixels_label">Width:</string>

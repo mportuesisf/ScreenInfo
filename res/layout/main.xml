@@ -84,6 +84,15 @@
 			</TableRow>
 			<TableRow>
 				<TextView
+					android:id="@+id/orientation_label"
+					android:textAppearance="@style/label"
+				    android:layout_marginRight="@dimen/label_spacing"
+					android:text="@string/orientation_label"/>
+				<TextView
+					android:id="@+id/orientation"/>
+			</TableRow>
+			<TableRow>
+				<TextView
 					android:id="@+id/screen_dpi_label"
 					android:textAppearance="@style/label"
 				    android:layout_marginRight="@dimen/label_spacing"

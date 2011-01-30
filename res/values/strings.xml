@@ -4,6 +4,7 @@
 
     <string name="about_menu">About</string>
     <string name="about_title">ScreenInfo</string>
+    <string name="version">Version</string>
     <string name="about">A simple app to display the screen configuration parameters for an Android device.</string>
     <string name="email">Email: info@jotabout.com</string>
     <string name="blog">Blog: digitaldumptruck.jotabout.com</string>
@@ -15,10 +16,16 @@
 	<string name="height_pixels_label">Height:</string>
 	<string name="screen_dpi_label">Screen DPI:</string>
 	<string name="actual_xdpi_label">X DPI:</string>
-	<string name="actual_ydpi_label">Y DPI</string>
+	<string name="actual_ydpi_label">Y DPI:</string>
 	<string name="logical_density_label">Logical Density:</string>
 	<string name="font_scale_density_label">Font Scale Density:</string>
 	<string name="computed_diagonal_size_inches_label">Diagonal Size (inches):</string>
 	<string name="computed_diagonal_size_mm_label">Diagonal Size (mm):</string>
+
+	<string name="orientation_label">Natural Orientation:</string>
+	<string name="orientation_square">Square</string>
+	<string name="orientation_landscape">Landscape</string>
+	<string name="orientation_portrait">Portrait</string>
+	<string name="orientation_undefined">Undefined</string>
 
 </resources>

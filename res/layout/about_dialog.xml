@@ -9,6 +9,13 @@
   android:paddingBottom="10dp">
   
   <TextView
+    android:id="@+id/about_version"
+  	android:layout_width="match_parent"
+  	android:layout_height="wrap_content"
+  	android:text="@string/version">
+  </TextView>
+  
+  <TextView
   	android:layout_width="match_parent"
   	android:layout_height="wrap_content"
   	android:text="@string/about">

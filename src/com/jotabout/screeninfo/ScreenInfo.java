@@ -1,5 +1,8 @@
 package com.jotabout.screeninfo;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -11,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.view.Display;
+import android.view.Surface;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -24,18 +28,23 @@ public class ScreenInfo extends Activity {
 	private final static int MENU_ABOUT = Menu.FIRST;
 	Dialog mAbout;
 	
-    /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        
+    }
+    
+    @Override
+	protected void onResume() {
+		super.onResume();
+		
         showDeviceInfo();
         showScreenMetrics();
         showDefaultOrientation();
-    }
-    
-    /**
+        showCurrentOrientation();
+	}
+
+	/**
      * Show basic information about the device.
      */
     public void showDeviceInfo() {
@@ -101,9 +110,60 @@ public class ScreenInfo extends Activity {
 	 */
 	private void showDefaultOrientation() {
 		// Screen default orientation
-        TextView orientationText = ((TextView) findViewById(R.id.orientation));
+        TextView orientationText = ((TextView) findViewById(R.id.natural_orientation));
         Configuration config = getResources().getConfiguration();
-        switch ( config.orientation ) {
+        setOrientationText(orientationText, config.orientation);
+	}
+
+	/**
+	 * Display the current screen orientation of the device, with respect to natural orientation.
+	 */
+	private void showCurrentOrientation() {
+		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
+		Display display = wm.getDefaultDisplay();
+        TextView orientationText = ((TextView) findViewById(R.id.current_orientation));
+		
+		// First, try the Display#getRotation() call, which was introduced in Froyo.
+		// Reference: http://android-developers.blogspot.com/2010/09/one-screen-turn-deserves-another.html
+		try {
+			Method getRotationMethod = display.getClass().getMethod("getRotation");
+			int rotation = (Integer) getRotationMethod.invoke(display);
+			switch (rotation) {
+			case Surface.ROTATION_0:
+				orientationText.setText("0");
+				break;
+			case Surface.ROTATION_90:
+				orientationText.setText("90");
+				break;
+			case Surface.ROTATION_180:
+				orientationText.setText("180");
+				break;
+			case Surface.ROTATION_270:
+				orientationText.setText("270");
+				break;
+			}
+			
+			return;
+		}
+		catch (SecurityException e) {;}
+		catch (NoSuchMethodException e) {;} 
+		catch (IllegalArgumentException e) {;}
+		catch (IllegalAccessException e) {;}
+		catch (InvocationTargetException e) {;}
+		
+		// Fall back on the deprecated Display#getOrientation method from earlier releases of Android.
+		int orientation = display.getOrientation();
+		setOrientationText( orientationText, orientation );
+	}
+	
+	/**
+	 * Helper sets an orientation string in the given text widget.
+	 * 
+	 * @param orientationText
+	 * @param orientation
+	 */
+	private void setOrientationText(TextView orientationText, int orientation) {
+		switch ( orientation ) {
         case Configuration.ORIENTATION_LANDSCAPE:
         	orientationText.setText(R.string.orientation_landscape);
         	break;
@@ -120,7 +180,7 @@ public class ScreenInfo extends Activity {
 	}
 	
 	/**
-	 * Return a string containing version number from the package manifest.
+	 * Helper returns a string containing version number from the package manifest.
 	 */
 	private String appVersion() {
 		String version = "";

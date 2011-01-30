@@ -84,12 +84,21 @@
 			</TableRow>
 			<TableRow>
 				<TextView
-					android:id="@+id/orientation_label"
+					android:id="@+id/natural_orientation_label"
 					android:textAppearance="@style/label"
 				    android:layout_marginRight="@dimen/label_spacing"
-					android:text="@string/orientation_label"/>
+					android:text="@string/natural_orientation_label"/>
 				<TextView
-					android:id="@+id/orientation"/>
+					android:id="@+id/natural_orientation"/>
+			</TableRow>
+			<TableRow>
+				<TextView
+					android:id="@+id/current_orientation_label"
+					android:textAppearance="@style/label"
+				    android:layout_marginRight="@dimen/label_spacing"
+					android:text="@string/current_orientation_label"/>
+				<TextView
+					android:id="@+id/current_orientation"/>
 			</TableRow>
 			<TableRow>
 				<TextView

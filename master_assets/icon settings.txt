@@ -1,0 +1,15 @@
+Android Asset Studio
+http://android-ui-utils.googlecode.com/hg/asset-studio/dist/index.html
+
+Launcher icons
+
+foreground: image
+trim: trim
+padding: between 25% and 30%
+foreground scaling: crop
+shape: square
+background color: #0091ff 
+foreground color: black
+no alpha
+foreground effects: fancy
+

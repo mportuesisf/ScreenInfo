@@ -84,6 +84,15 @@
 			</TableRow>
 			<TableRow>
 				<TextView
+					android:id="@+id/long_wide_label"
+					android:textAppearance="@style/label"
+				    android:layout_marginRight="@dimen/label_spacing"
+					android:text="@string/long_wide_label"/>
+				<TextView
+					android:id="@+id/long_wide"/>
+			</TableRow>
+			<TableRow>
+				<TextView
 					android:id="@+id/natural_orientation_label"
 					android:textAppearance="@style/label"
 				    android:layout_marginRight="@dimen/label_spacing"

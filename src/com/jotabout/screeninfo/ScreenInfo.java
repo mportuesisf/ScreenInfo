@@ -40,6 +40,8 @@ public class ScreenInfo extends Activity {
 		
         showDeviceInfo();
         showScreenMetrics();
+    	showScreenDiagonalSize();
+    	showScreenLongWide();
         showDefaultOrientation();
         showCurrentOrientation();
         showTouchScreen();
@@ -71,8 +73,6 @@ public class ScreenInfo extends Activity {
         ((TextView) findViewById(R.id.actual_ydpi)).setText( Float.toString(metrics.ydpi) );
         ((TextView) findViewById(R.id.logical_density)).setText( Double.toString(metrics.density) );
         ((TextView) findViewById(R.id.font_scale_density)).setText( Float.toString(metrics.scaledDensity) );
-        
-    	showScreenDiagonalSize(metrics);
     }
 
     /**
@@ -82,7 +82,12 @@ public class ScreenInfo extends Activity {
      * 
      * @param metrics
      */
-	private void showScreenDiagonalSize(DisplayMetrics metrics) {
+	private void showScreenDiagonalSize() {
+		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
+		Display display = wm.getDefaultDisplay();
+ 		DisplayMetrics metrics = new DisplayMetrics();
+		display.getMetrics(metrics);
+		
 		double xdpi = metrics.xdpi;
 		if ( xdpi < 1.0 ) {
 			// Guard against divide-by-zero, possible with lazy device manufacturers who set these fields incorrectly
@@ -104,6 +109,27 @@ public class ScreenInfo extends Activity {
 		double diagonalSizeMillimeters = Math.floor( rawDiagonalSizeInches * 25.4 + 0.5 );
         ((TextView) findViewById(R.id.computed_diagonal_size_inches)).setText( Double.toString(diagonalSizeInches) );
         ((TextView) findViewById(R.id.computed_diagonal_size_mm)).setText( Double.toString(diagonalSizeMillimeters) );
+	}
+	
+	/**
+	 * Display whether or not the device has a display that is longer or wider than normal.
+	 */
+	private void showScreenLongWide() {
+        TextView longWideText = ((TextView) findViewById(R.id.long_wide));
+        Configuration config = getResources().getConfiguration();
+        
+        int screenLayout = config.screenLayout & Configuration.SCREENLAYOUT_LONG_MASK;
+        switch (screenLayout) {
+        case Configuration.SCREENLAYOUT_LONG_YES:
+        	longWideText.setText(R.string.yes);
+        	break;
+        case Configuration.SCREENLAYOUT_LONG_NO:
+        	longWideText.setText(R.string.no);
+        	break;
+        case Configuration.SCREENLAYOUT_LONG_UNDEFINED:
+        	longWideText.setText(R.string.undefined);
+        	break;
+        }
 	}
 
 	/**
@@ -146,11 +172,11 @@ public class ScreenInfo extends Activity {
 			
 			return;
 		}
-		catch (SecurityException e) {;}
-		catch (NoSuchMethodException e) {;} 
-		catch (IllegalArgumentException e) {;}
-		catch (IllegalAccessException e) {;}
-		catch (InvocationTargetException e) {;}
+		catch (SecurityException ignore) {;}
+		catch (NoSuchMethodException ignore) {;} 
+		catch (IllegalArgumentException ignore) {;}
+		catch (IllegalAccessException ignore) {;}
+		catch (InvocationTargetException ignore) {;}
 		
 		// Fall back on the deprecated Display#getOrientation method from earlier releases of Android.
 		int orientation = display.getOrientation();
@@ -175,7 +201,7 @@ public class ScreenInfo extends Activity {
         	orientationText.setText(R.string.orientation_square);
         	break;
         case Configuration.ORIENTATION_UNDEFINED:
-        	orientationText.setText(R.string.orientation_undefined);
+        	orientationText.setText(R.string.undefined);
         	break;
         }
 	}
@@ -195,7 +221,7 @@ public class ScreenInfo extends Activity {
         	touchScreenText.setText(R.string.touchscreen_none);
         	break;
         case Configuration.TOUCHSCREEN_UNDEFINED:
-        	touchScreenText.setText(R.string.touchscreen_undefined);
+        	touchScreenText.setText(R.string.undefined);
         	break;
         }
 	}

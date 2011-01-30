@@ -26,13 +26,16 @@
 	<string name="touchscreen_none">None</string>
 	<string name="touchscreen_finger">Finger</string>
 	<string name="touchscreen_stylus">Stylus</string>
-	<string name="touchscreen_undefined">Undefined</string>
 			
 	<string name="natural_orientation_label">Natural Orientation:</string>	
 	<string name="current_orientation_label">Current Orientation:</string>
 	<string name="orientation_square">Square</string>
 	<string name="orientation_landscape">Landscape</string>
 	<string name="orientation_portrait">Portrait</string>
-	<string name="orientation_undefined">Undefined</string>
+	
+	<string name="long_wide_label">Long or Wide:</string>
 
+	<string name="yes">Yes</string>
+	<string name="no">No</string>	
+	<string name="undefined">Undefined</string>
 </resources>

@@ -42,6 +42,7 @@ public class ScreenInfo extends Activity {
         showScreenMetrics();
         showDefaultOrientation();
         showCurrentOrientation();
+        showTouchScreen();
 	}
 
 	/**
@@ -175,6 +176,26 @@ public class ScreenInfo extends Activity {
         	break;
         case Configuration.ORIENTATION_UNDEFINED:
         	orientationText.setText(R.string.orientation_undefined);
+        	break;
+        }
+	}
+	
+	private void showTouchScreen() {
+        TextView touchScreenText = ((TextView) findViewById(R.id.touchscreen));
+        Configuration config = getResources().getConfiguration();
+        
+        switch (config.touchscreen ) {
+        case Configuration.TOUCHSCREEN_FINGER:
+        	touchScreenText.setText(R.string.touchscreen_finger);
+        	break;
+        case Configuration.TOUCHSCREEN_STYLUS:
+        	touchScreenText.setText(R.string.touchscreen_stylus);        	
+        	break;
+        case Configuration.TOUCHSCREEN_NOTOUCH:
+        	touchScreenText.setText(R.string.touchscreen_none);
+        	break;
+        case Configuration.TOUCHSCREEN_UNDEFINED:
+        	touchScreenText.setText(R.string.touchscreen_undefined);
         	break;
         }
 	}

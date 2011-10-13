@@ -36,6 +36,9 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Configuration;
+import android.graphics.ImageFormat;
+import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
@@ -71,7 +74,9 @@ public class ScreenInfo extends Activity {
         showDefaultOrientation();
         showCurrentOrientation();
         showTouchScreen();
-	}
+        showPixelFormat();
+        showRefreshRate();
+    }
 
 	/**
      * Show basic information about the device.
@@ -87,12 +92,36 @@ public class ScreenInfo extends Activity {
     public void showScreenMetrics() {
 		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
 		Display display = wm.getDefaultDisplay();
+		
+		int widthPx;
+		int heightPx;
+		try {
+			// Try to get size without the Status bar, if we can (API level 13)
+			Method getSizeMethod = display.getClass().getMethod("getSize", Point.class);
+			Point pt = new Point();
+			getSizeMethod.invoke( display, pt );
+			widthPx = pt.x;
+			heightPx = pt.y;
+		} catch (Exception ignore) {
+			// Use older APIs
+			widthPx = display.getWidth();
+			heightPx = display.getHeight();
+		}
     	
-        ((TextView) findViewById(R.id.width_pixels)).setText( Integer.toString(display.getWidth()) );
-        ((TextView) findViewById(R.id.height_pixels)).setText( Integer.toString(display.getHeight()) );
+        ((TextView) findViewById(R.id.width_pixels)).setText( Integer.toString(widthPx) );
+        ((TextView) findViewById(R.id.height_pixels)).setText( Integer.toString(heightPx) );
         
 		DisplayMetrics metrics = new DisplayMetrics();
 		display.getMetrics(metrics);
+		
+		// Calculate screen sizes in device-independent pixels (dp)
+		int widthDp = (int) (((double) widthPx / metrics.density) + 0.5);
+		int heightDp = (int) (((double) heightPx / metrics.density) + 0.5);
+		int smallestDp = widthDp > heightDp ? heightDp : widthDp;
+
+        ((TextView) findViewById(R.id.width_dp)).setText( Integer.toString(widthDp) );
+        ((TextView) findViewById(R.id.height_dp)).setText( Integer.toString(heightDp) );
+        ((TextView) findViewById(R.id.smallest_dp)).setText( Integer.toString(smallestDp) );
 
         ((TextView) findViewById(R.id.screen_dpi)).setText( Integer.toString(metrics.densityDpi) );
         ((TextView) findViewById(R.id.actual_xdpi)).setText( Float.toString(metrics.xdpi) );
@@ -198,11 +227,7 @@ public class ScreenInfo extends Activity {
 			
 			return;
 		}
-		catch (SecurityException ignore) {;}
-		catch (NoSuchMethodException ignore) {;} 
-		catch (IllegalArgumentException ignore) {;}
-		catch (IllegalAccessException ignore) {;}
-		catch (InvocationTargetException ignore) {;}
+		catch (Exception ignore) {;}
 		
 		// Fall back on the deprecated Display#getOrientation method from earlier releases of Android.
 		int orientation = display.getOrientation();
@@ -232,6 +257,9 @@ public class ScreenInfo extends Activity {
         }
 	}
 	
+	/**
+	 * Display touchscreen properties
+	 */
 	private void showTouchScreen() {
         TextView touchScreenText = ((TextView) findViewById(R.id.touchscreen));
         Configuration config = getResources().getConfiguration();
@@ -250,6 +278,87 @@ public class ScreenInfo extends Activity {
         	touchScreenText.setText(R.string.undefined);
         	break;
         }
+	}
+	
+	/**
+	 * Display pixel format
+	 */
+	private void showPixelFormat() {
+        TextView pixelFormatText = ((TextView) findViewById(R.id.pixel_format));
+		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
+		Display display = wm.getDefaultDisplay();
+		
+		int format = display.getPixelFormat();
+		
+		switch ( format ) {
+		case PixelFormat.A_8:
+			pixelFormatText.setText("A_8");
+			break;
+		case ImageFormat.JPEG:
+			pixelFormatText.setText("JPEG");
+			break;
+		case PixelFormat.L_8:
+			pixelFormatText.setText("L_8");
+			break;			
+		case PixelFormat.LA_88:
+			pixelFormatText.setText("LA_88");
+			break;			
+		case PixelFormat.OPAQUE:
+			pixelFormatText.setText("OPAQUE");
+			break;			
+		case PixelFormat.RGB_332:
+			pixelFormatText.setText("RGB_332");
+			break;			
+		case PixelFormat.RGB_565:
+			pixelFormatText.setText("RGB_565");
+			break;			
+		case PixelFormat.RGB_888:
+			pixelFormatText.setText("RGB_888");
+			break;			
+		case PixelFormat.RGBA_4444:
+			pixelFormatText.setText("RGBA_4444");
+			break;			
+		case PixelFormat.RGBA_5551:
+			pixelFormatText.setText("RGBA_5551");
+			break;
+		case PixelFormat.RGBA_8888:
+			pixelFormatText.setText("RGBA_8888");
+			break;			
+		case PixelFormat.RGBX_8888:
+			pixelFormatText.setText("RGBX_8888");
+			break;			
+		case PixelFormat.TRANSLUCENT:
+			pixelFormatText.setText("TRANSLUCENT");
+			break;			
+		case PixelFormat.TRANSPARENT:
+			pixelFormatText.setText("TRANSPARENT");
+			break;			
+		case PixelFormat.UNKNOWN:
+			pixelFormatText.setText("UNKNOWN");
+			break;			
+		case ImageFormat.NV21:
+			pixelFormatText.setText("NV21");
+			break;			
+		case ImageFormat.YUY2:
+			pixelFormatText.setText("YUY2");
+			break;			
+		case ImageFormat.NV16:
+			pixelFormatText.setText("NV16");
+			break;
+		default:
+			pixelFormatText.setText(R.string.unknown);
+		}
+	}
+	
+	/**
+	 * Display refresh rate
+	 */
+	private void showRefreshRate() {
+        TextView refreshRateText = ((TextView) findViewById(R.id.refresh_rate));
+		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
+		Display display = wm.getDefaultDisplay();
+		
+		refreshRateText.setText(Float.toString(display.getRefreshRate()));
 	}
 	
 	/**

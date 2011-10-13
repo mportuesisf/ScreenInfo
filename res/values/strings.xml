@@ -12,15 +12,19 @@
         
 	<string name="device_label">Device Name:</string>
 	<string name="os_version_label">Android Version:</string>
-	<string name="width_pixels_label">Width:</string>
-	<string name="height_pixels_label">Height:</string>
+
+	<string name="width_pixels_label">Width (px):</string>
+	<string name="height_pixels_label">Height (px):</string>
+	<string name="width_dp_label">Width (dp):</string>
+	<string name="height_dp_label">Height (dp):</string>
+	<string name="smallest_dp_label">Smallest DP:</string>
 	<string name="screen_dpi_label">Screen DPI:</string>
 	<string name="actual_xdpi_label">X DPI:</string>
 	<string name="actual_ydpi_label">Y DPI:</string>
 	<string name="logical_density_label">Logical Density:</string>
 	<string name="font_scale_density_label">Font Scale Density:</string>
-	<string name="computed_diagonal_size_inches_label">Diagonal Size (inches):</string>
-	<string name="computed_diagonal_size_mm_label">Diagonal Size (mm):</string>
+	<string name="computed_diagonal_size_inches_label">Calculated Diagonal (inches):</string>
+	<string name="computed_diagonal_size_mm_label">Calculated Diagonal (mm):</string>
 
 	<string name="touchscreen_label">Touchscreen:</string>
 	<string name="touchscreen_none">None</string>
@@ -35,7 +39,11 @@
 	
 	<string name="long_wide_label">Long or Wide:</string>
 
+	<string name="pixel_format_label">Pixel Format:</string>
+	<string name="refresh_rate_label">Refresh Rate (fps):</string>
+	
 	<string name="yes">Yes</string>
 	<string name="no">No</string>	
 	<string name="undefined">Undefined</string>
+	<string name="unknown">Unknown</string>
 </resources>

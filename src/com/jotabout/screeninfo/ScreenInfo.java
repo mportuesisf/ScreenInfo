@@ -27,40 +27,47 @@ package com.jotabout.screeninfo;
  * THE SOFTWARE.
  */
 
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
-import android.content.res.Configuration;
-import android.graphics.ImageFormat;
-import android.graphics.PixelFormat;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Surface;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * Main activity class.  Displays information to user.
+ */
 public class ScreenInfo extends Activity {
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Constants
+	//////////////////////////////////////////////////////////////////////////
 	
 	private final static int ABOUT_DIALOG = 1;
 	private final static int MENU_ABOUT = Menu.FIRST;
+	
+	//////////////////////////////////////////////////////////////////////////
+	// State
+	//////////////////////////////////////////////////////////////////////////
+
 	Dialog mAbout;
+	Screen mScreen;
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Activity Lifecycle
+	//////////////////////////////////////////////////////////////////////////
 	
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        
+        mScreen = new Screen(this);
     }
     
     @Override
@@ -77,6 +84,10 @@ public class ScreenInfo extends Activity {
         showPixelFormat();
         showRefreshRate();
     }
+    
+	//////////////////////////////////////////////////////////////////////////
+	// Info Display
+	//////////////////////////////////////////////////////////////////////////
 
 	/**
      * Show basic information about the device.
@@ -90,44 +101,16 @@ public class ScreenInfo extends Activity {
      * Show the screen metrics (pixel dimensions, density, dpi, etc) for the device.
      */
     public void showScreenMetrics() {
-		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
-		Display display = wm.getDefaultDisplay();
-		
-		int widthPx;
-		int heightPx;
-		try {
-			// Try to get size without the Status bar, if we can (API level 13)
-			Method getSizeMethod = display.getClass().getMethod("getSize", Point.class);
-			Point pt = new Point();
-			getSizeMethod.invoke( display, pt );
-			widthPx = pt.x;
-			heightPx = pt.y;
-		} catch (Exception ignore) {
-			// Use older APIs
-			widthPx = display.getWidth();
-			heightPx = display.getHeight();
-		}
-    	
-        ((TextView) findViewById(R.id.width_pixels)).setText( Integer.toString(widthPx) );
-        ((TextView) findViewById(R.id.height_pixels)).setText( Integer.toString(heightPx) );
-        
-		DisplayMetrics metrics = new DisplayMetrics();
-		display.getMetrics(metrics);
-		
-		// Calculate screen sizes in device-independent pixels (dp)
-		int widthDp = (int) (((double) widthPx / metrics.density) + 0.5);
-		int heightDp = (int) (((double) heightPx / metrics.density) + 0.5);
-		int smallestDp = widthDp > heightDp ? heightDp : widthDp;
-
-        ((TextView) findViewById(R.id.width_dp)).setText( Integer.toString(widthDp) );
-        ((TextView) findViewById(R.id.height_dp)).setText( Integer.toString(heightDp) );
-        ((TextView) findViewById(R.id.smallest_dp)).setText( Integer.toString(smallestDp) );
-
-        ((TextView) findViewById(R.id.screen_dpi)).setText( Integer.toString(metrics.densityDpi) );
-        ((TextView) findViewById(R.id.actual_xdpi)).setText( Float.toString(metrics.xdpi) );
-        ((TextView) findViewById(R.id.actual_ydpi)).setText( Float.toString(metrics.ydpi) );
-        ((TextView) findViewById(R.id.logical_density)).setText( Double.toString(metrics.density) );
-        ((TextView) findViewById(R.id.font_scale_density)).setText( Float.toString(metrics.scaledDensity) );
+        ((TextView) findViewById(R.id.width_pixels)).setText( Integer.toString(mScreen.widthPx()) );
+        ((TextView) findViewById(R.id.height_pixels)).setText( Integer.toString(mScreen.heightPx()) );
+        ((TextView) findViewById(R.id.width_dp)).setText( Integer.toString(mScreen.widthDp()) );
+        ((TextView) findViewById(R.id.height_dp)).setText( Integer.toString(mScreen.heightDp()) );
+        ((TextView) findViewById(R.id.smallest_dp)).setText( Integer.toString(mScreen.smallestDp()) );
+        ((TextView) findViewById(R.id.screen_dpi)).setText( Integer.toString(mScreen.densityDpi()) );
+        ((TextView) findViewById(R.id.actual_xdpi)).setText( Float.toString(mScreen.xdpi()) );
+        ((TextView) findViewById(R.id.actual_ydpi)).setText( Float.toString(mScreen.ydpi()) );
+        ((TextView) findViewById(R.id.logical_density)).setText( Double.toString(mScreen.density()) );
+        ((TextView) findViewById(R.id.font_scale_density)).setText( Float.toString(mScreen.scaledDensity()) );
     }
 
     /**
@@ -138,32 +121,10 @@ public class ScreenInfo extends Activity {
      * @param metrics
      */
 	private void showScreenDiagonalSize() {
-		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
-		Display display = wm.getDefaultDisplay();
- 		DisplayMetrics metrics = new DisplayMetrics();
-		display.getMetrics(metrics);
-		
-		double xdpi = metrics.xdpi;
-		if ( xdpi < 1.0 ) {
-			// Guard against divide-by-zero, possible with lazy device manufacturers who set these fields incorrectly
-			// Set the density to our best guess.
-			xdpi = metrics.densityDpi;
-		}
-		double ydpi = metrics.ydpi;
-		if ( ydpi < 1.0 ) {
-			ydpi =  metrics.densityDpi;
-		}
-		
-		// Calculate physical screen width/height
-		double physicalWidth = ((double) metrics.widthPixels) / xdpi;
-		double physicalHeight = ((double) metrics.heightPixels) / ydpi;
-		
-		// Calculate diagonal screen size, in both U.S. and Metric units
-		double rawDiagonalSizeInches = Math.sqrt(Math.pow(physicalWidth, 2) + Math.pow(physicalHeight, 2));
-		double diagonalSizeInches = Math.floor( rawDiagonalSizeInches * 10.0 + 0.5 ) / 10.0;
-		double diagonalSizeMillimeters = Math.floor( rawDiagonalSizeInches * 25.4 + 0.5 );
-        ((TextView) findViewById(R.id.computed_diagonal_size_inches)).setText( Double.toString(diagonalSizeInches) );
-        ((TextView) findViewById(R.id.computed_diagonal_size_mm)).setText( Double.toString(diagonalSizeMillimeters) );
+        ((TextView) findViewById(R.id.computed_diagonal_size_inches))
+        		.setText( Double.toString(mScreen.diagonalSizeInches()) );
+        ((TextView) findViewById(R.id.computed_diagonal_size_mm))
+        		.setText( Double.toString(mScreen.diagonalSizeMillimeters()) );
 	}
 	
 	/**
@@ -171,90 +132,23 @@ public class ScreenInfo extends Activity {
 	 */
 	private void showScreenLongWide() {
         TextView longWideText = ((TextView) findViewById(R.id.long_wide));
-        Configuration config = getResources().getConfiguration();
-        
-        int screenLayout = config.screenLayout & Configuration.SCREENLAYOUT_LONG_MASK;
-        switch (screenLayout) {
-        case Configuration.SCREENLAYOUT_LONG_YES:
-        	longWideText.setText(R.string.yes);
-        	break;
-        case Configuration.SCREENLAYOUT_LONG_NO:
-        	longWideText.setText(R.string.no);
-        	break;
-        case Configuration.SCREENLAYOUT_LONG_UNDEFINED:
-        	longWideText.setText(R.string.undefined);
-        	break;
-        }
+        longWideText.setText( mScreen.screenLayoutText(this) );
 	}
 
 	/**
 	 * Display the "natural" screen orientation of the device.
 	 */
 	private void showDefaultOrientation() {
-		// Screen default orientation
         TextView orientationText = ((TextView) findViewById(R.id.natural_orientation));
-        Configuration config = getResources().getConfiguration();
-        setOrientationText(orientationText, config.orientation);
+        orientationText.setText( mScreen.defaultOrientationText(this) );
 	}
 
 	/**
 	 * Display the current screen orientation of the device, with respect to natural orientation.
 	 */
 	private void showCurrentOrientation() {
-		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
-		Display display = wm.getDefaultDisplay();
-        TextView orientationText = ((TextView) findViewById(R.id.current_orientation));
-		
-		// First, try the Display#getRotation() call, which was introduced in Froyo.
-		// Reference: http://android-developers.blogspot.com/2010/09/one-screen-turn-deserves-another.html
-		try {
-			Method getRotationMethod = display.getClass().getMethod("getRotation");
-			int rotation = (Integer) getRotationMethod.invoke(display);
-			switch (rotation) {
-			case Surface.ROTATION_0:
-				orientationText.setText("0");
-				break;
-			case Surface.ROTATION_90:
-				orientationText.setText("90");
-				break;
-			case Surface.ROTATION_180:
-				orientationText.setText("180");
-				break;
-			case Surface.ROTATION_270:
-				orientationText.setText("270");
-				break;
-			}
-			
-			return;
-		}
-		catch (Exception ignore) {;}
-		
-		// Fall back on the deprecated Display#getOrientation method from earlier releases of Android.
-		int orientation = display.getOrientation();
-		setOrientationText( orientationText, orientation );
-	}
-	
-	/**
-	 * Helper sets an orientation string in the given text widget.
-	 * 
-	 * @param orientationText
-	 * @param orientation
-	 */
-	private void setOrientationText(TextView orientationText, int orientation) {
-		switch ( orientation ) {
-        case Configuration.ORIENTATION_LANDSCAPE:
-        	orientationText.setText(R.string.orientation_landscape);
-        	break;
-        case Configuration.ORIENTATION_PORTRAIT:
-        	orientationText.setText(R.string.orientation_portrait);
-        	break;
-        case Configuration.ORIENTATION_SQUARE:
-        	orientationText.setText(R.string.orientation_square);
-        	break;
-        case Configuration.ORIENTATION_UNDEFINED:
-        	orientationText.setText(R.string.undefined);
-        	break;
-        }
+		TextView orientationText = ((TextView) findViewById(R.id.current_orientation));
+		orientationText.setText( mScreen.currentOrientationText( ) );
 	}
 	
 	/**
@@ -262,22 +156,7 @@ public class ScreenInfo extends Activity {
 	 */
 	private void showTouchScreen() {
         TextView touchScreenText = ((TextView) findViewById(R.id.touchscreen));
-        Configuration config = getResources().getConfiguration();
-        
-        switch (config.touchscreen ) {
-        case Configuration.TOUCHSCREEN_FINGER:
-        	touchScreenText.setText(R.string.touchscreen_finger);
-        	break;
-        case Configuration.TOUCHSCREEN_STYLUS:
-        	touchScreenText.setText(R.string.touchscreen_stylus);        	
-        	break;
-        case Configuration.TOUCHSCREEN_NOTOUCH:
-        	touchScreenText.setText(R.string.touchscreen_none);
-        	break;
-        case Configuration.TOUCHSCREEN_UNDEFINED:
-        	touchScreenText.setText(R.string.undefined);
-        	break;
-        }
+        touchScreenText.setText( mScreen.touchScreenText(this) );
 	}
 	
 	/**
@@ -285,69 +164,7 @@ public class ScreenInfo extends Activity {
 	 */
 	private void showPixelFormat() {
         TextView pixelFormatText = ((TextView) findViewById(R.id.pixel_format));
-		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
-		Display display = wm.getDefaultDisplay();
-		
-		int format = display.getPixelFormat();
-		
-		switch ( format ) {
-		case PixelFormat.A_8:
-			pixelFormatText.setText("A_8");
-			break;
-		case ImageFormat.JPEG:
-			pixelFormatText.setText("JPEG");
-			break;
-		case PixelFormat.L_8:
-			pixelFormatText.setText("L_8");
-			break;			
-		case PixelFormat.LA_88:
-			pixelFormatText.setText("LA_88");
-			break;			
-		case PixelFormat.OPAQUE:
-			pixelFormatText.setText("OPAQUE");
-			break;			
-		case PixelFormat.RGB_332:
-			pixelFormatText.setText("RGB_332");
-			break;			
-		case PixelFormat.RGB_565:
-			pixelFormatText.setText("RGB_565");
-			break;			
-		case PixelFormat.RGB_888:
-			pixelFormatText.setText("RGB_888");
-			break;			
-		case PixelFormat.RGBA_4444:
-			pixelFormatText.setText("RGBA_4444");
-			break;			
-		case PixelFormat.RGBA_5551:
-			pixelFormatText.setText("RGBA_5551");
-			break;
-		case PixelFormat.RGBA_8888:
-			pixelFormatText.setText("RGBA_8888");
-			break;			
-		case PixelFormat.RGBX_8888:
-			pixelFormatText.setText("RGBX_8888");
-			break;			
-		case PixelFormat.TRANSLUCENT:
-			pixelFormatText.setText("TRANSLUCENT");
-			break;			
-		case PixelFormat.TRANSPARENT:
-			pixelFormatText.setText("TRANSPARENT");
-			break;			
-		case PixelFormat.UNKNOWN:
-			pixelFormatText.setText("UNKNOWN");
-			break;			
-		case ImageFormat.NV21:
-			pixelFormatText.setText("NV21");
-			break;			
-		case ImageFormat.YUY2:
-			pixelFormatText.setText("YUY2");
-			break;			
-		case ImageFormat.NV16:
-			pixelFormatText.setText("NV16");
-			break;
-		default:
-			pixelFormatText.setText(R.string.unknown);
-		}
+        pixelFormatText.setText( mScreen.pixelFormatText(this) );
 	}
 	
 	/**
@@ -355,11 +172,12 @@ public class ScreenInfo extends Activity {
 	 */
 	private void showRefreshRate() {
         TextView refreshRateText = ((TextView) findViewById(R.id.refresh_rate));
-		WindowManager wm = ((WindowManager) getSystemService(Context.WINDOW_SERVICE));
-		Display display = wm.getDefaultDisplay();
-		
-		refreshRateText.setText(Float.toString(display.getRefreshRate()));
+		refreshRateText.setText(Float.toString(mScreen.refreshRate()));
 	}
+	
+	//////////////////////////////////////////////////////////////////////////
+	// Dialog
+	//////////////////////////////////////////////////////////////////////////
 	
 	/**
 	 * Helper returns a string containing version number from the package manifest.
@@ -396,6 +214,10 @@ public class ScreenInfo extends Activity {
 		return mAbout;
 	}
 
+	//////////////////////////////////////////////////////////////////////////
+	// Menu
+	//////////////////////////////////////////////////////////////////////////
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		menu.add( 0, MENU_ABOUT, 0, R.string.about_menu );

@@ -48,9 +48,6 @@ import android.view.WindowManager;
  * statistics.  It also provides helpers to format data as strings
  * for display.
  * 
- * TODO:
- * 		-- toString() for use in preparing a text summary
- * 
  */
 public class Screen {
 

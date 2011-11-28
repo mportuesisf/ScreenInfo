@@ -3,8 +3,7 @@ package com.jotabout.screeninfo;
 /**
  * ScreenInfo
  * 
- * A simple app to display the screen configuration parameters for an
- * Android device.
+ * Display the screen configuration parameters for an Android device.
  * 
  * Copyright (c) 2011 Michael J. Portuesi (http://www.jotabout.com)
  * 
@@ -34,6 +33,7 @@ import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.Surface;
@@ -49,8 +49,6 @@ import android.view.WindowManager;
  * for display.
  * 
  * TODO:
- * 		-- screen size classification (large, xlarge, etc)
- * 		-- screen density classification (mdpi, hdpi, xhdpi, etc)
  * 		-- toString() for use in preparing a text summary
  * 
  */
@@ -58,6 +56,8 @@ public class Screen {
 
 	private Display mDisplay;
 	private Configuration mConfig;
+	
+	private int mSizeClass;
 	
 	private int widthPx;
 	private int heightPx;
@@ -88,7 +88,11 @@ public class Screen {
 		WindowManager wm = ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE));
 		mDisplay = wm.getDefaultDisplay();
         mConfig = ctx.getResources().getConfiguration();
+        
+        // Screen Size classification
+		mSizeClass = mConfig.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
 		
+		// Screen dimensions
 		try {
 			// Try to get size without the Status bar, if we can (API level 13)
 			Method getSizeMethod = mDisplay.getClass().getMethod("getSize", Point.class);
@@ -159,6 +163,53 @@ public class Screen {
 	}
 	
 	/**
+	 * Model name of device.
+	 * @return
+	 */
+	public String deviceModel() {
+		return Build.MODEL;
+	}
+	
+	/**
+	 * Version of Android (e.g. "2.3.5").
+	 * 
+	 * @return
+	 */
+	public String androidVersion() {
+		return Build.VERSION.RELEASE;
+	}
+	
+	/**
+	 * Screen Size classification
+	 */
+	public int sizeClassification() {
+		return mSizeClass;
+	}
+	
+	/**
+	 * Size classification, as displayable text
+	 * 
+	 * @param ctx
+	 * @return
+	 */
+	public String sizeClassificationText( Context ctx ) {
+		switch ( mSizeClass ) {
+		case Configuration.SCREENLAYOUT_SIZE_SMALL:
+			return "small";
+		case Configuration.SCREENLAYOUT_SIZE_NORMAL:
+			return "normal";
+		case Configuration.SCREENLAYOUT_SIZE_LARGE:
+			return "large";
+		case Configuration.SCREENLAYOUT_SIZE_XLARGE:
+			return "xlarge";
+		case Configuration.SCREENLAYOUT_SIZE_UNDEFINED:
+			return ctx.getString(R.string.undefined);
+		}
+		
+		return ctx.getString(R.string.unknown);
+	}
+	
+	/**
 	 * Width of screen, in pixels
 	 * 
 	 * @return
@@ -211,6 +262,26 @@ public class Screen {
 	 */
 	public int densityDpi() {
 		return densityDpi;
+	}
+	
+	/**
+	 * Density classification, as text
+	 */
+	public String densityDpiText( Context ctx ) {
+		switch ( densityDpi ) {
+		case DisplayMetrics.DENSITY_TV:
+			return "tvdpi";
+		case DisplayMetrics.DENSITY_LOW:
+			return "ldpi";
+		case DisplayMetrics.DENSITY_MEDIUM:
+			return "mdpi";
+		case DisplayMetrics.DENSITY_HIGH:
+			return "hdpi";
+		case DisplayMetrics.DENSITY_XHIGH:
+			return "xhdpi";
+		}
+		
+		return ctx.getString(R.string.unknown);
 	}
 	
 	/**
@@ -399,6 +470,58 @@ public class Screen {
 	 */
 	public float refreshRate() {
 		return refreshRate;
+	}
+
+	/**
+	 * Return a string containing a text-based summary, suitable
+	 * to share, email, save to SD card, etc.
+	 * 
+	 * @param ctx
+	 * @return
+	 */
+	public String summaryText( Context ctx ) {
+		StringBuilder sb = new StringBuilder();
+		
+		addLine( sb, ctx, R.string.device_label, 						deviceModel() );
+		addLine( sb, ctx, R.string.os_version_label, 					androidVersion() );
+		addLine( sb, ctx, R.string.screen_class_label, 					sizeClassificationText(ctx) );
+		addLine( sb, ctx, R.string.density_class_label, 				densityDpiText(ctx) );
+		addLine( sb, ctx, R.string.width_pixels_label, 					widthPx() );
+		addLine( sb, ctx, R.string.height_pixels_label, 				heightPx() );
+		addLine( sb, ctx, R.string.width_dp_label, 						widthDp() );
+		addLine( sb, ctx, R.string.height_dp_label, 					heightDp() );
+		addLine( sb, ctx, R.string.smallest_dp_label, 					smallestDp() );
+		addLine( sb, ctx, R.string.long_wide_label, 					screenLayoutText(ctx) );
+		addLine( sb, ctx, R.string.natural_orientation_label, 			defaultOrientationText(ctx) );
+		addLine( sb, ctx, R.string.current_orientation_label, 			currentOrientationText() );
+		addLine( sb, ctx, R.string.touchscreen_label, 					touchScreenText(ctx) );
+		addLine( sb, ctx, R.string.screen_dpi_label, 					densityDpi() );
+		addLine( sb, ctx, R.string.actual_xdpi_label, 					xdpi() );
+		addLine( sb, ctx, R.string.actual_ydpi_label, 					ydpi() );
+		addLine( sb, ctx, R.string.logical_density_label, 				density() );
+		addLine( sb, ctx, R.string.font_scale_density_label, 			scaledDensity() );
+		addLine( sb, ctx, R.string.computed_diagonal_size_inches_label, diagonalSizeInches() );
+		addLine( sb, ctx, R.string.computed_diagonal_size_mm_label, 	diagonalSizeMillimeters() );
+		addLine( sb, ctx, R.string.pixel_format_label, 					pixelFormatText(ctx) );
+		addLine( sb, ctx, R.string.refresh_rate_label, 					refreshRate() );
+		
+		return sb.toString();
+	}
+	
+	private void addLine( StringBuilder sb, Context ctx, int resId, String value ) {
+		sb.append( ctx.getString( resId ) ).append( " " ).append( value ).append( "\n" );
+	}
+	
+	private void addLine( StringBuilder sb, Context ctx, int resId, int value ) {
+		addLine( sb, ctx, resId, Integer.toString(value) );
+	}
+	
+	private void addLine( StringBuilder sb, Context ctx, int resId, float value ) {
+		addLine( sb, ctx, resId, Float.toString(value) );
+	}
+	
+	private void addLine( StringBuilder sb, Context ctx, int resId, double value ) {
+		addLine( sb, ctx, resId, Double.toString(value) );
 	}
 	
 	//////////////////////////////////////////////////////////////////////////

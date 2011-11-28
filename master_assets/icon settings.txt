@@ -5,11 +5,9 @@ Launcher icons
 
 foreground: image
 trim: trim
-padding: between 25% and 30%
+padding: 15%
 foreground scaling: crop
 shape: square
-background color: #0091ff 
+background color: #fae909 
 foreground color: black
-no alpha
-foreground effects: fancy
-
+better image smoothing selected

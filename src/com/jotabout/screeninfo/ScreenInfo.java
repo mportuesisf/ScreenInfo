@@ -28,13 +28,14 @@ package com.jotabout.screeninfo;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+import android.util.DisplayMetrics;
+import android.view.*;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -101,6 +102,10 @@ public class ScreenInfo extends Activity {
      * Show the screen metrics (pixel dimensions, density, dpi, etc) for the device.
      */
     public void showScreenMetrics() {
+        ((TextView) findViewById(R.id.screen_class))		.setText( mScreen.sizeClassificationText(this) );
+        ((TextView) findViewById(R.id.density_class))		.setText( mScreen.densityDpiText(this) );
+        ((TextView) findViewById(R.id.total_width_pixels))	.setText( Integer.toString( mScreen.realWidthPx()) );
+        ((TextView) findViewById(R.id.total_height_pixels))	.setText( Integer.toString( mScreen.realHeightPx()) );
         ((TextView) findViewById(R.id.width_pixels))		.setText( Integer.toString( mScreen.widthPx()) );
         ((TextView) findViewById(R.id.height_pixels))		.setText( Integer.toString( mScreen.heightPx()) );
         ((TextView) findViewById(R.id.width_dp))			.setText( Integer.toString( mScreen.widthDp()) );

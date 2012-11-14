@@ -15,8 +15,8 @@
     <string name="os_version_label">Android Version:</string>
     <string name="screen_class_label">Screen class:</string>
     <string name="density_class_label">Density class:</string>
-    <string name="width_pixels_label">Width (px):</string>
-    <string name="height_pixels_label">Height (px):</string>
+    <string name="width_pixels_label">App-usable Width (px):</string>
+    <string name="height_pixels_label">App-usable Height (px):</string>
     <string name="width_dp_label">Width (dp):</string>
     <string name="height_dp_label">Height (dp):</string>
     <string name="smallest_dp_label">Smallest DP:</string>
@@ -39,8 +39,11 @@
     <string name="long_wide_label">Long or Wide:</string>
     <string name="pixel_format_label">Pixel Format:</string>
     <string name="refresh_rate_label">Refresh Rate (fps):</string>
+    <string name="total_width_pixels_label">Total Width (px):</string>
+    <string name="total_height_pixels_label">Total Height (px):</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="undefined">Undefined</string>
     <string name="unknown">Unknown</string>
+    <string name="unsupported">Unsupported</string>
 </resources>

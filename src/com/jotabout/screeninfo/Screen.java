@@ -28,16 +28,16 @@ package com.jotabout.screeninfo;
 
 import java.lang.reflect.Method;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.view.Display;
-import android.view.Surface;
-import android.view.WindowManager;
+import android.view.*;
 
 /**
  * Screen is a model object that summarizes information about the
@@ -51,6 +51,8 @@ import android.view.WindowManager;
  */
 @SuppressWarnings("deprecation")	// Tell Lint to STFU about deprecated APIs - they are necessary for backwards compatibility
 public class Screen {
+	
+	public static final int UNSUPPORTED = -255;
 
 	private Display mDisplay;
 	private Configuration mConfig;
@@ -59,8 +61,13 @@ public class Screen {
 	
 	private int widthPx;
 	private int heightPx;
+
+	private int realWidthPx;
+	private int realHeightPx;
+	
 	private int widthDp;
 	private int heightDp;
+	
 	private int smallestDp;
 	private int densityDpi;
 	private float xdpi;
@@ -89,27 +96,35 @@ public class Screen {
         
         // Screen Size classification
 		mSizeClass = mConfig.screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK;
-		
-		// Screen dimensions
+
+		// Usable Screen dimensions
 		try {
-			// Try to get size without the Status bar, if we can (API level 13)
 			Method getSizeMethod = mDisplay.getClass().getMethod("getSize", Point.class);
 			Point pt = new Point();
 			getSizeMethod.invoke( mDisplay, pt );
-			widthPx = pt.x;
-			heightPx = pt.y;
+			widthPx = realWidthPx = pt.x;
+			heightPx = realHeightPx = pt.y;
 		} catch (Exception ignore) {
 			// Use older APIs
-			widthPx = mDisplay.getWidth();
-			heightPx = mDisplay.getHeight();
+			widthPx = realWidthPx = mDisplay.getWidth();
+			heightPx = realHeightPx = mDisplay.getHeight();
 		}
-    	
-		// Calculate screen sizes in device-independent pixels (dp)
+		
+		// Total (real) screen dimensions (as of Android 4.2, API 17)
+		if ( Build.VERSION.SDK_INT >= 17 ) {
+			DisplayMetrics metrics = new DisplayMetrics();
+			wm.getDefaultDisplay().getRealMetrics(metrics);
+			
+			realWidthPx = metrics.widthPixels;
+			realHeightPx = metrics.heightPixels;
+		}
+
+		// Screen sizes in device-independent pixels (dp)
+		widthDp = mConfig.screenWidthDp;
+		smallestDp = mConfig.smallestScreenWidthDp;
 		DisplayMetrics metrics = new DisplayMetrics();
 		mDisplay.getMetrics(metrics);
-		widthDp = (int) (((double) widthPx / metrics.density) + 0.5);
-		heightDp = (int) (((double) heightPx / metrics.density) + 0.5);
-		smallestDp = widthDp > heightDp ? heightDp : widthDp;
+		heightDp = (int) (((double) realHeightPx / metrics.density) + 0.5);
 
 		// Nominal DPI
 		densityDpi = metrics.densityDpi;
@@ -153,8 +168,11 @@ public class Screen {
         // Current rotation
         determineCurrentRotation( ctx );
         
-        // Pixel format
-		pixelFormat = mDisplay.getPixelFormat();
+        // Pixel format (deprecated as of Android 4.2, API 17)
+        pixelFormat = UNSUPPORTED;
+        if ( Build.VERSION.SDK_INT < 17 ) {
+        	pixelFormat = mDisplay.getPixelFormat();
+        }
 		
 		// Refresh rate
         refreshRate = mDisplay.getRefreshRate();
@@ -208,7 +226,7 @@ public class Screen {
 	}
 	
 	/**
-	 * Width of screen, in pixels
+	 * Usable (application-accessible) Width of screen, in pixels
 	 * 
 	 * @return
 	 */
@@ -217,12 +235,26 @@ public class Screen {
 	}
 
 	/**
-	 * Height of screen, in pixels
+	 * Usable (application-accessible) Height of screen, in pixels
 	 * 
 	 * @return
 	 */
 	public int heightPx() {
 		return heightPx;
+	}
+	
+	/**
+	 * Real width of screen, in pixels (all usable space, including system-reserved space)
+	 */
+	public int realWidthPx() {
+		return this.realWidthPx;
+	}
+	
+	/**
+	 * Real height of screen, in pixels (all usable space, including system-reserved space)
+	 */
+	public int realHeightPx() {
+		return this.realHeightPx;
 	}
 
 	/**
@@ -463,8 +495,10 @@ public class Screen {
 		case 5:
 			// Credit to Lawrence D'Oliveiro (https://github.com/ldo/screeninfo_android/)
 			return "BGRA_8888"; /* see platform/system/core/include/system/graphics.h */
+		case UNSUPPORTED:
+			return ctx.getString( R.string.unsupported );
 		default:
-			return ctx.getString(R.string.unknown);
+			return ctx.getString( R.string.unknown );
 		}
 	}
 	
@@ -489,6 +523,8 @@ public class Screen {
 		addLine( sb, ctx, R.string.os_version_label, 					androidVersion() );
 		addLine( sb, ctx, R.string.screen_class_label, 					sizeClassificationText(ctx) );
 		addLine( sb, ctx, R.string.density_class_label, 				densityDpiText(ctx) );
+		addLine( sb, ctx, R.string.total_width_pixels_label, 			realWidthPx() );
+		addLine( sb, ctx, R.string.total_height_pixels_label, 			realHeightPx() );
 		addLine( sb, ctx, R.string.width_pixels_label, 					widthPx() );
 		addLine( sb, ctx, R.string.height_pixels_label, 				heightPx() );
 		addLine( sb, ctx, R.string.width_dp_label, 						widthDp() );

@@ -66,8 +66,56 @@
 			android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="20dp">
+			
+		    <!-- Screen Size classification -->
+			<TableRow>
+				<TextView
+					android:id="@+id/screen_class_label"
+					android:textAppearance="@style/label"
+				    android:layout_marginRight="@dimen/label_spacing"
+				    android:gravity="right"
+					android:text="@string/screen_class_label"/>
+				<TextView
+					android:id="@+id/screen_class"/>	
+			</TableRow>
+			
+			<!-- Screen density classification -->
+			<TableRow>
+				<TextView
+					android:id="@+id/density_class_label"
+					android:textAppearance="@style/label"
+				    android:layout_marginRight="@dimen/label_spacing"
+				    android:gravity="right"
+					android:text="@string/density_class_label"/>
+				<TextView
+					android:id="@+id/density_class"/>	
+			</TableRow>
+			
+		    <!-- Total Width (pixels) -->
+			<TableRow>
+				<TextView
+					android:id="@+id/total_width_pixels_label"
+					android:textAppearance="@style/label"
+				    android:layout_marginRight="@dimen/label_spacing"
+				    android:gravity="right"
+					android:text="@string/total_width_pixels_label"/>
+				<TextView
+					android:id="@+id/total_width_pixels"/>	
+			</TableRow>
 
-		    <!-- Width (pixels) -->
+		    <!-- Total Height (pixels) -->
+			<TableRow>
+				<TextView
+					android:id="@+id/total_height_pixels_label"
+					android:textAppearance="@style/label"
+				    android:layout_marginRight="@dimen/label_spacing"
+				    android:gravity="right"
+					android:text="@string/total_height_pixels_label"/>
+				<TextView
+					android:id="@+id/total_height_pixels"/>
+			</TableRow>
+
+		    <!-- App-usable Width (pixels) -->
 			<TableRow>
 				<TextView
 					android:id="@+id/width_pixels_label"
@@ -79,7 +127,7 @@
 					android:id="@+id/width_pixels"/>	
 			</TableRow>
 
-		    <!-- Height (pixels) -->
+		    <!-- App-usable Height (pixels) -->
 			<TableRow>
 				<TextView
 					android:id="@+id/height_pixels_label"

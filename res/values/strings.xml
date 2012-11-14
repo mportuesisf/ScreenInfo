@@ -7,10 +7,11 @@
     <string name="version">Version</string>
     <string name="share_summary_subject">Display report from ScreenInfo</string>
     <string name="share_title">Share Report To</string>
-    <string name="about">A simple app to display the screen configuration parameters for an Android device.</string>
+    <string name="about">Displays the screen configuration parameters for an Android device.</string>
     <string name="email">Email: info@jotabout.com</string>
     <string name="blog">Blog: digitaldumptruck.jotabout.com</string>
     <string name="about_dismiss">That\'s nice</string>
+    <string name="play_store_link">Report prepared by ScreenInfo. Get yourself a copy: https://play.google.com/store/apps/details?id=com.jotabout.screeninfo</string>
     <string name="device_label">Device Name:</string>
     <string name="os_version_label">Android Version:</string>
     <string name="screen_class_label">Screen class:</string>

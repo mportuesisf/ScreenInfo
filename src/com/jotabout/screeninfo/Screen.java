@@ -543,8 +543,14 @@ public class Screen {
 		addLine( sb, ctx, R.string.computed_diagonal_size_mm_label, 	diagonalSizeMillimeters() );
 		addLine( sb, ctx, R.string.pixel_format_label, 					pixelFormatText(ctx) );
 		addLine( sb, ctx, R.string.refresh_rate_label, 					refreshRate() );
+		sb.append( "\n" );
+		addLine( sb, ctx, R.string.play_store_link );
 		
 		return sb.toString();
+	}
+
+	private void addLine( StringBuilder sb, Context ctx, int resId ) {
+		sb.append( ctx.getString( resId ) ).append( "\n" );
 	}
 	
 	private void addLine( StringBuilder sb, Context ctx, int resId, String value ) {

@@ -46,5 +46,5 @@
     <string name="no">No</string>
     <string name="undefined">Undefined</string>
     <string name="unknown">Unknown</string>
-    <string name="unsupported">Unsupported</string>
+    <string name="unsupported">Not Available</string>
 </resources>

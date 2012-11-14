@@ -102,15 +102,17 @@ public class Screen {
 			Method getSizeMethod = mDisplay.getClass().getMethod("getSize", Point.class);
 			Point pt = new Point();
 			getSizeMethod.invoke( mDisplay, pt );
-			widthPx = realWidthPx = pt.x;
-			heightPx = realHeightPx = pt.y;
+			widthPx = pt.x;
+			heightPx = pt.y;
 		} catch (Exception ignore) {
 			// Use older APIs
-			widthPx = realWidthPx = mDisplay.getWidth();
-			heightPx = realHeightPx = mDisplay.getHeight();
+			widthPx = mDisplay.getWidth();
+			heightPx = mDisplay.getHeight();
 		}
 		
 		// Total (real) screen dimensions (as of Android 4.2, API 17)
+		realWidthPx = UNSUPPORTED;
+		realHeightPx = UNSUPPORTED;
 		if ( Build.VERSION.SDK_INT >= 17 ) {
 			DisplayMetrics metrics = new DisplayMetrics();
 			wm.getDefaultDisplay().getRealMetrics(metrics);
@@ -124,7 +126,8 @@ public class Screen {
 		smallestDp = mConfig.smallestScreenWidthDp;
 		DisplayMetrics metrics = new DisplayMetrics();
 		mDisplay.getMetrics(metrics);
-		heightDp = (int) (((double) realHeightPx / metrics.density) + 0.5);
+		
+		heightDp = (int) (((double) ((realHeightPx == UNSUPPORTED) ? heightPx : realHeightPx) / metrics.density) + 0.5);
 
 		// Nominal DPI
 		densityDpi = metrics.densityDpi;
@@ -244,17 +247,31 @@ public class Screen {
 	}
 	
 	/**
-	 * Real width of screen, in pixels (all usable space, including system-reserved space)
+	 * Real width of screen, in pixels (all usable space, including system-reserved space).
+	 * Returns UNSUPPORTED on systems with < API 17.
 	 */
 	public int realWidthPx() {
 		return this.realWidthPx;
 	}
 	
+	public String realWidthPxText( Context ctx ) {
+		return this.realWidthPx == UNSUPPORTED ?
+				ctx.getString( R.string.unsupported ) :
+					Integer.toString( realWidthPx );
+	}
+	
 	/**
 	 * Real height of screen, in pixels (all usable space, including system-reserved space)
+	 * Returns UNSUPPORTED on systems with < API 17.
 	 */
 	public int realHeightPx() {
 		return this.realHeightPx;
+	}
+	
+	public String realHeightPxText( Context ctx ) {
+		return this.realHeightPx == UNSUPPORTED ?
+				ctx.getString( R.string.unsupported ) :
+					Integer.toString( realHeightPx );
 	}
 
 	/**
@@ -523,8 +540,8 @@ public class Screen {
 		  .addLine( R.string.os_version_label, 						androidVersion() )
 		  .addLine( R.string.screen_class_label, 					sizeClassificationText(ctx) )
 		  .addLine( R.string.density_class_label, 					densityDpiText(ctx) )
-		  .addLine( R.string.total_width_pixels_label, 				realWidthPx() )
-		  .addLine( R.string.total_height_pixels_label, 			realHeightPx() )
+		  .addLine( R.string.total_width_pixels_label, 				realWidthPxText(ctx) )
+		  .addLine( R.string.total_height_pixels_label, 			realHeightPxText(ctx) )
 		  .addLine( R.string.width_pixels_label, 					widthPx() )
 		  .addLine( R.string.height_pixels_label, 					heightPx() )
 		  .addLine( R.string.width_dp_label, 						widthDp() )

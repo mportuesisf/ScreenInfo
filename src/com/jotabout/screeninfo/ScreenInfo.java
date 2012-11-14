@@ -103,8 +103,8 @@ public class ScreenInfo extends Activity {
     public void showScreenMetrics() {
         ((TextView) findViewById(R.id.screen_class))		.setText( mScreen.sizeClassificationText(this) );
         ((TextView) findViewById(R.id.density_class))		.setText( mScreen.densityDpiText(this) );
-        ((TextView) findViewById(R.id.total_width_pixels))	.setText( Integer.toString( mScreen.realWidthPx()) );
-        ((TextView) findViewById(R.id.total_height_pixels))	.setText( Integer.toString( mScreen.realHeightPx()) );
+        ((TextView) findViewById(R.id.total_width_pixels))	.setText( mScreen.realWidthPxText(this) );
+        ((TextView) findViewById(R.id.total_height_pixels))	.setText( mScreen.realHeightPxText(this) );
         ((TextView) findViewById(R.id.width_pixels))		.setText( Integer.toString( mScreen.widthPx()) );
         ((TextView) findViewById(R.id.height_pixels))		.setText( Integer.toString( mScreen.heightPx()) );
         ((TextView) findViewById(R.id.width_dp))			.setText( Integer.toString( mScreen.widthDp()) );

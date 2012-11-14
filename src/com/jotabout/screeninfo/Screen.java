@@ -49,6 +49,7 @@ import android.view.WindowManager;
  * for display.
  * 
  */
+@SuppressWarnings("deprecation")	// Tell Lint to STFU about deprecated APIs - they are necessary for backwards compatibility
 public class Screen {
 
 	private Display mDisplay;
@@ -110,12 +111,12 @@ public class Screen {
 		heightDp = (int) (((double) heightPx / metrics.density) + 0.5);
 		smallestDp = widthDp > heightDp ? heightDp : widthDp;
 
-		// DPI
+		// Nominal DPI
 		densityDpi = metrics.densityDpi;
 		xdpi = metrics.xdpi;
 		ydpi = metrics.ydpi;
 		
-		// Screen density scaling factors
+		// Nominal screen density scaling factors
 		density = metrics.density;
 		scaledDensity = metrics.scaledDensity;
 		
@@ -276,6 +277,8 @@ public class Screen {
 			return "hdpi";
 		case DisplayMetrics.DENSITY_XHIGH:
 			return "xhdpi";
+		case DisplayMetrics.DENSITY_XXHIGH:
+			return "xxhdpi";
 		}
 		
 		return ctx.getString(R.string.unknown);
@@ -457,6 +460,9 @@ public class Screen {
 			return "YUY2";
 		case ImageFormat.NV16:
 			return "NV16";
+		case 5:
+			// Credit to Lawrence D'Oliveiro (https://github.com/ldo/screeninfo_android/)
+			return "BGRA_8888"; /* see platform/system/core/include/system/graphics.h */
 		default:
 			return ctx.getString(R.string.unknown);
 		}

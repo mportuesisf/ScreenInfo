@@ -28,16 +28,16 @@ package com.jotabout.screeninfo;
 
 import java.lang.reflect.Method;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
-import android.graphics.Rect;
 import android.os.Build;
 import android.util.DisplayMetrics;
-import android.view.*;
+import android.view.Display;
+import android.view.Surface;
+import android.view.WindowManager;
 
 /**
  * Screen is a model object that summarizes information about the
@@ -517,56 +517,81 @@ public class Screen {
 	 * @return
 	 */
 	public String summaryText( Context ctx ) {
-		StringBuilder sb = new StringBuilder();
+		SummaryTextBuilder sb = new SummaryTextBuilder( ctx );
 		
-		addLine( sb, ctx, R.string.device_label, 						deviceModel() );
-		addLine( sb, ctx, R.string.os_version_label, 					androidVersion() );
-		addLine( sb, ctx, R.string.screen_class_label, 					sizeClassificationText(ctx) );
-		addLine( sb, ctx, R.string.density_class_label, 				densityDpiText(ctx) );
-		addLine( sb, ctx, R.string.total_width_pixels_label, 			realWidthPx() );
-		addLine( sb, ctx, R.string.total_height_pixels_label, 			realHeightPx() );
-		addLine( sb, ctx, R.string.width_pixels_label, 					widthPx() );
-		addLine( sb, ctx, R.string.height_pixels_label, 				heightPx() );
-		addLine( sb, ctx, R.string.width_dp_label, 						widthDp() );
-		addLine( sb, ctx, R.string.height_dp_label, 					heightDp() );
-		addLine( sb, ctx, R.string.smallest_dp_label, 					smallestDp() );
-		addLine( sb, ctx, R.string.long_wide_label, 					screenLayoutText(ctx) );
-		addLine( sb, ctx, R.string.natural_orientation_label, 			defaultOrientationText(ctx) );
-		addLine( sb, ctx, R.string.current_orientation_label, 			currentOrientationText() );
-		addLine( sb, ctx, R.string.touchscreen_label, 					touchScreenText(ctx) );
-		addLine( sb, ctx, R.string.screen_dpi_label, 					densityDpi() );
-		addLine( sb, ctx, R.string.actual_xdpi_label, 					xdpi() );
-		addLine( sb, ctx, R.string.actual_ydpi_label, 					ydpi() );
-		addLine( sb, ctx, R.string.logical_density_label, 				density() );
-		addLine( sb, ctx, R.string.font_scale_density_label, 			scaledDensity() );
-		addLine( sb, ctx, R.string.computed_diagonal_size_inches_label, diagonalSizeInches() );
-		addLine( sb, ctx, R.string.computed_diagonal_size_mm_label, 	diagonalSizeMillimeters() );
-		addLine( sb, ctx, R.string.pixel_format_label, 					pixelFormatText(ctx) );
-		addLine( sb, ctx, R.string.refresh_rate_label, 					refreshRate() );
-		sb.append( "\n" );
-		addLine( sb, ctx, R.string.play_store_link );
+		sb.addLine( R.string.device_label, 							deviceModel() )
+		  .addLine( R.string.os_version_label, 						androidVersion() )
+		  .addLine( R.string.screen_class_label, 					sizeClassificationText(ctx) )
+		  .addLine( R.string.density_class_label, 					densityDpiText(ctx) )
+		  .addLine( R.string.total_width_pixels_label, 				realWidthPx() )
+		  .addLine( R.string.total_height_pixels_label, 			realHeightPx() )
+		  .addLine( R.string.width_pixels_label, 					widthPx() )
+		  .addLine( R.string.height_pixels_label, 					heightPx() )
+		  .addLine( R.string.width_dp_label, 						widthDp() )
+		  .addLine( R.string.height_dp_label, 						heightDp() )
+		  .addLine( R.string.smallest_dp_label, 					smallestDp() )
+		  .addLine( R.string.long_wide_label, 						screenLayoutText(ctx) )
+		  .addLine( R.string.natural_orientation_label, 			defaultOrientationText(ctx) )
+		  .addLine( R.string.current_orientation_label, 			currentOrientationText() )
+		  .addLine( R.string.touchscreen_label, 					touchScreenText(ctx) )
+		  .addLine( R.string.screen_dpi_label, 						densityDpi() )
+		  .addLine( R.string.actual_xdpi_label, 					xdpi() )
+		  .addLine( R.string.actual_ydpi_label, 					ydpi() )
+		  .addLine( R.string.logical_density_label, 				density() )
+		  .addLine( R.string.font_scale_density_label, 				scaledDensity() )
+		  .addLine( R.string.computed_diagonal_size_inches_label, 	diagonalSizeInches() )
+		  .addLine( R.string.computed_diagonal_size_mm_label, 		diagonalSizeMillimeters() )
+		  .addLine( R.string.pixel_format_label, 					pixelFormatText(ctx) )
+		  .addLine( R.string.refresh_rate_label, 					refreshRate() )
+		  .addNewLine()
+		  .addLine( R.string.play_store_link );
 		
 		return sb.toString();
 	}
-
-	private void addLine( StringBuilder sb, Context ctx, int resId ) {
-		sb.append( ctx.getString( resId ) ).append( "\n" );
-	}
 	
-	private void addLine( StringBuilder sb, Context ctx, int resId, String value ) {
-		sb.append( ctx.getString( resId ) ).append( " " ).append( value ).append( "\n" );
-	}
-	
-	private void addLine( StringBuilder sb, Context ctx, int resId, int value ) {
-		addLine( sb, ctx, resId, Integer.toString(value) );
-	}
-	
-	private void addLine( StringBuilder sb, Context ctx, int resId, float value ) {
-		addLine( sb, ctx, resId, Float.toString(value) );
-	}
-	
-	private void addLine( StringBuilder sb, Context ctx, int resId, double value ) {
-		addLine( sb, ctx, resId, Double.toString(value) );
+	/**
+	 * Helper class used to generate summary text report.
+	 */
+	private class SummaryTextBuilder {
+		private StringBuilder sb;
+		private Context ctx;
+		
+		public SummaryTextBuilder( Context ctx ) {
+			sb = new StringBuilder();
+			this.ctx = ctx;
+		}
+		
+		public SummaryTextBuilder addLine( int resId ) {
+			sb.append( ctx.getString( resId ) ).append( "\n" );
+			return this;
+		}
+		
+		public SummaryTextBuilder addLine(int resId, String value ) {
+			sb.append( ctx.getString( resId ) ).append( " " ).append( value ).append( "\n" );
+			return this;
+		}
+		
+		public SummaryTextBuilder addLine( int resId, int value ) {
+			return addLine( resId, Integer.toString(value) );
+		}
+		
+		public SummaryTextBuilder addLine( int resId, float value ) {
+			return addLine( resId, Float.toString(value) );
+		}
+		
+		public SummaryTextBuilder addLine( int resId, double value ) {
+			return addLine( resId, Double.toString(value) );
+		}
+		
+		public SummaryTextBuilder addNewLine() {
+			sb.append("\n");
+			return this;
+		}
+		
+		@Override
+		public String toString() {
+			return sb.toString();
+		}
 	}
 	
 	//////////////////////////////////////////////////////////////////////////

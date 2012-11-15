@@ -14,6 +14,7 @@
     <string name="play_store_link">Report prepared by ScreenInfo. Get yourself a copy: https://play.google.com/store/apps/details?id=com.jotabout.screeninfo</string>
     <string name="device_label">Device Name:</string>
     <string name="os_version_label">Android Version:</string>
+    <string name="resource_selection_label">Resource selection</string>
     <string name="screen_class_label">Screen class:</string>
     <string name="density_class_label">Density class:</string>
     <string name="width_pixels_label">App-usable Width (px):</string>

@@ -1,336 +1,393 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView  xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="match_parent"
-	android:layout_height="wrap_content">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
 
-	<LinearLayout
-		android:orientation="vertical"
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content">
-	
-		<TableLayout
-			android:id="@+id/device_header"
-			android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-	    	android:layout_marginLeft="20dp">
-			<TableRow>
-				<TextView
-					android:id="@+id/device_label"
-					android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:textAppearance="@style/label"
-				    android:gravity="right"
-				    android:text="@string/device_label"/>
-				<TextView
-					android:id="@+id/device_name"
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"/>		
-			</TableRow>
-			<TableRow>
-				<TextView
-					android:id="@+id/os_version_label"
-					android:layout_width="wrap_content"
-			    	android:layout_height="wrap_content"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:textAppearance="@style/label"
-				    android:gravity="right"
-			    	android:text="@string/os_version_label"/>
-			    
-				<TextView
-					android:id="@+id/os_version"
-				    android:layout_width="wrap_content"
-				    android:layout_height="wrap_content"/>		
-			</TableRow>
-		</TableLayout>
-		
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="30dp"
-			android:background="@drawable/rule_line"/>
-	
-		<ImageView
-			android:id="@+id/display"
-			android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_gravity="center_horizontal"
-		    android:src="@drawable/display"/>
-		 
-		<View
-			android:layout_width="match_parent"
-			android:layout_height="30dp"
-			android:background="@drawable/rule_line"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
 
-		<TableLayout
-			android:id="@+id/stats_table"
-			android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_marginLeft="20dp">
-			
-		    <!-- Screen Size classification -->
-			<TableRow>
-				<TextView
-					android:id="@+id/screen_class_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/screen_class_label"/>
-				<TextView
-					android:id="@+id/screen_class"/>	
-			</TableRow>
-			
-			<!-- Screen density classification -->
-			<TableRow>
-				<TextView
-					android:id="@+id/density_class_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/density_class_label"/>
-				<TextView
-					android:id="@+id/density_class"/>	
-			</TableRow>
-			
-		    <!-- Total Width (pixels) -->
-			<TableRow>
-				<TextView
-					android:id="@+id/total_width_pixels_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/total_width_pixels_label"/>
-				<TextView
-					android:id="@+id/total_width_pixels"/>	
-			</TableRow>
+        <TableLayout
+            android:id="@+id/device_header"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp" >
 
-		    <!-- Total Height (pixels) -->
-			<TableRow>
-				<TextView
-					android:id="@+id/total_height_pixels_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/total_height_pixels_label"/>
-				<TextView
-					android:id="@+id/total_height_pixels"/>
-			</TableRow>
+            <TableRow>
 
-		    <!-- App-usable Width (pixels) -->
-			<TableRow>
-				<TextView
-					android:id="@+id/width_pixels_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/width_pixels_label"/>
-				<TextView
-					android:id="@+id/width_pixels"/>	
-			</TableRow>
+                <TextView
+                    android:id="@+id/device_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/device_label"
+                    android:textAppearance="@style/label" />
 
-		    <!-- App-usable Height (pixels) -->
-			<TableRow>
-				<TextView
-					android:id="@+id/height_pixels_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/height_pixels_label"/>
-				<TextView
-					android:id="@+id/height_pixels"/>
-			</TableRow>
+                <TextView
+                    android:id="@+id/device_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
 
-		    <!-- Width (dp) -->
-			<TableRow>
-				<TextView
-					android:id="@+id/width_dp_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/width_dp_label"/>
-				<TextView
-					android:id="@+id/width_dp"/>	
-			</TableRow>
+            <TableRow>
 
-		    <!-- Height (dp) -->
-			<TableRow>
-				<TextView
-					android:id="@+id/height_dp_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/height_dp_label"/>
-				<TextView
-					android:id="@+id/height_dp"/>
-			</TableRow>
+                <TextView
+                    android:id="@+id/os_version_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/os_version_label"
+                    android:textAppearance="@style/label" />
 
-		    <!-- Smallest DP -->
-			<TableRow>
-				<TextView
-					android:id="@+id/smallest_dp_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/smallest_dp_label"/>
-				<TextView
-					android:id="@+id/smallest_dp"/>
-			</TableRow>
-			
-			<!-- Long or Wide -->		
-			<TableRow>
-				<TextView
-					android:id="@+id/long_wide_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/long_wide_label"/>
-				<TextView
-					android:id="@+id/long_wide"/>
-			</TableRow>
+                <TextView
+                    android:id="@+id/os_version"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+        </TableLayout>
 
-		    <!-- Natural Orientation -->
-			<TableRow>
-				<TextView
-					android:id="@+id/natural_orientation_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/natural_orientation_label"/>
-				<TextView
-					android:id="@+id/natural_orientation"/>
-			</TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/rule_line" />
 
-		    <!-- Current Orientation -->
-			<TableRow>
-				<TextView
-					android:id="@+id/current_orientation_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/current_orientation_label"/>
-				<TextView
-					android:id="@+id/current_orientation"/>
-			</TableRow>
+        <TextView
+            android:id="@+id/resource_selection_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:text="@string/resource_selection_label"
+            android:textAppearance="@style/label" />
 
-		    <!-- Touchscreen Type -->
-			<TableRow>
-				<TextView
-					android:id="@+id/touchscreen_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/touchscreen_label"/>
-				<TextView
-					android:id="@+id/touchscreen"/>
-			</TableRow>
+        <ImageView
+            android:id="@+id/display"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/display" />
 
-		    <!-- Screen DPI -->
-			<TableRow>
-				<TextView
-					android:id="@+id/screen_dpi_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/screen_dpi_label"/>
-				<TextView
-					android:id="@+id/screen_dpi"/>
-			</TableRow>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="@drawable/rule_line" />
 
-		    <!-- X DPI -->
-			<TableRow>
-				<TextView
-					android:id="@+id/actual_xdpi_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/actual_xdpi_label"/>
-				<TextView
-					android:id="@+id/actual_xdpi"/>
-			</TableRow>
+        <TableLayout
+            android:id="@+id/stats_table"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp" >
 
-		    <!-- Y DPI -->
-			<TableRow>
-				<TextView
-					android:id="@+id/actual_ydpi_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/actual_ydpi_label"/>
-				<TextView
-					android:id="@+id/actual_ydpi"/>
-			</TableRow>
+            <!-- Screen Size classification -->
 
-		    <!-- Logical Density -->
-			<TableRow>
-				<TextView
-					android:id="@+id/logical_density_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/logical_density_label"/>
-				<TextView
-					android:id="@+id/logical_density"/>
-			</TableRow>
+            <TableRow>
 
-		    <!-- Font Scaling Density -->
-			<TableRow>
-				<TextView
-					android:id="@+id/font_scale_density_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/font_scale_density_label"/>
-				<TextView
-					android:id="@+id/font_scale_density"/>
-			</TableRow>
+                <TextView
+                    android:id="@+id/screen_class_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/screen_class_label"
+                    android:textAppearance="@style/label" />
 
-		    <!-- Computed diagonal size (inches) -->
-			<TableRow>
-				<TextView
-					android:id="@+id/computed_diagonal_size_inches_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/computed_diagonal_size_inches_label"/>
-				<TextView
-					android:id="@+id/computed_diagonal_size_inches"/>
-			</TableRow>
+                <TextView android:id="@+id/screen_class" />
+            </TableRow>
 
-		    <!-- Computed diagonal size (mm) -->
-			<TableRow>
-				<TextView
-					android:id="@+id/computed_diagonal_size_mm_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/computed_diagonal_size_mm_label"/>
-				<TextView
-					android:id="@+id/computed_diagonal_size_mm"/>
-			</TableRow>
+            <!-- Screen density classification -->
 
-		    <!-- Pixel Format -->
-			<TableRow>
-				<TextView
-					android:id="@+id/pixel_format_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/pixel_format_label"/>
-				<TextView
-					android:id="@+id/pixel_format"/>
-			</TableRow>
+            <TableRow>
 
-		    <!-- Refresh Rate -->
-			<TableRow>
-				<TextView
-					android:id="@+id/refresh_rate_label"
-					android:textAppearance="@style/label"
-				    android:layout_marginRight="@dimen/label_spacing"
-				    android:gravity="right"
-					android:text="@string/refresh_rate_label"/>
-				<TextView
-					android:id="@+id/refresh_rate"/>
-			</TableRow>
-		</TableLayout>
-	
-	</LinearLayout>
+                <TextView
+                    android:id="@+id/density_class_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/density_class_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/density_class" />
+            </TableRow>
+
+            <!-- Total Width (pixels) -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/total_width_pixels_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/total_width_pixels_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/total_width_pixels" />
+            </TableRow>
+
+            <!-- Total Height (pixels) -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/total_height_pixels_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/total_height_pixels_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/total_height_pixels" />
+            </TableRow>
+
+            <!-- App-usable Width (pixels) -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/width_pixels_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/width_pixels_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/width_pixels" />
+            </TableRow>
+
+            <!-- App-usable Height (pixels) -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/height_pixels_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/height_pixels_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/height_pixels" />
+            </TableRow>
+
+            <!-- Width (dp) -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/width_dp_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/width_dp_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/width_dp" />
+            </TableRow>
+
+            <!-- Height (dp) -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/height_dp_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/height_dp_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/height_dp" />
+            </TableRow>
+
+            <!-- Smallest DP -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/smallest_dp_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/smallest_dp_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/smallest_dp" />
+            </TableRow>
+
+            <!-- Long or Wide -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/long_wide_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/long_wide_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/long_wide" />
+            </TableRow>
+
+            <!-- Natural Orientation -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/natural_orientation_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/natural_orientation_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/natural_orientation" />
+            </TableRow>
+
+            <!-- Current Orientation -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/current_orientation_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/current_orientation_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/current_orientation" />
+            </TableRow>
+
+            <!-- Touchscreen Type -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/touchscreen_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/touchscreen_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/touchscreen" />
+            </TableRow>
+
+            <!-- Screen DPI -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/screen_dpi_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/screen_dpi_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/screen_dpi" />
+            </TableRow>
+
+            <!-- X DPI -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/actual_xdpi_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/actual_xdpi_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/actual_xdpi" />
+            </TableRow>
+
+            <!-- Y DPI -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/actual_ydpi_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/actual_ydpi_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/actual_ydpi" />
+            </TableRow>
+
+            <!-- Logical Density -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/logical_density_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/logical_density_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/logical_density" />
+            </TableRow>
+
+            <!-- Font Scaling Density -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/font_scale_density_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/font_scale_density_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/font_scale_density" />
+            </TableRow>
+
+            <!-- Computed diagonal size (inches) -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/computed_diagonal_size_inches_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/computed_diagonal_size_inches_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/computed_diagonal_size_inches" />
+            </TableRow>
+
+            <!-- Computed diagonal size (mm) -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/computed_diagonal_size_mm_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/computed_diagonal_size_mm_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/computed_diagonal_size_mm" />
+            </TableRow>
+
+            <!-- Pixel Format -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/pixel_format_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/pixel_format_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/pixel_format" />
+            </TableRow>
+
+            <!-- Refresh Rate -->
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/refresh_rate_label"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/refresh_rate_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView android:id="@+id/refresh_rate" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
 </ScrollView>

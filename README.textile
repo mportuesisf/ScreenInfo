@@ -24,3 +24,14 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 </code>
+
+h1. Privacy Policy (for users of the application)
+
+ScreenInfo does not require personal information in order to use it. ScreenInfo
+does not utilize Android system permissions that could allow it to obtain
+personal or device-specific identification information, nor does it ask you for
+this information while it is in use.
+ 
+ScreenInfo collects information pertaining to one thing only: the display screen
+characteristics of your Android device.  It does not share information with other apps
+or services unless you explicitly choose to do so via the "Share" menu.

@@ -121,9 +121,14 @@ public class Screen {
 			realHeightPx = metrics.heightPixels;
 		}
 
-		// Screen sizes in device-independent pixels (dp)
-		widthDp = mConfig.screenWidthDp;
-		smallestDp = mConfig.smallestScreenWidthDp;
+		// Screen sizes in device-independent pixels (dp) (as of API 13)
+        widthDp = UNSUPPORTED;
+        smallestDp = UNSUPPORTED;
+        if ( Build.VERSION.SDK_INT >= 13 ) {
+            widthDp = mConfig.screenWidthDp;
+            smallestDp = mConfig.smallestScreenWidthDp;
+        }
+        
 		DisplayMetrics metrics = new DisplayMetrics();
 		mDisplay.getMetrics(metrics);
 		

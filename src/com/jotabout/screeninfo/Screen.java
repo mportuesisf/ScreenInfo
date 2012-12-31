@@ -28,6 +28,7 @@ package com.jotabout.screeninfo;
 
 import java.lang.reflect.Method;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.ImageFormat;
@@ -89,6 +90,7 @@ public class Screen {
     private int pixelFormat;
     private float refreshRate;
 
+	@SuppressLint("NewApi")
 	public Screen( Context ctx ) {
 		WindowManager wm = ((WindowManager) ctx.getSystemService(Context.WINDOW_SERVICE));
 		mDisplay = wm.getDefaultDisplay();
@@ -122,17 +124,19 @@ public class Screen {
 		}
 
 		// Screen sizes in device-independent pixels (dp) (as of API 13)
+		DisplayMetrics metrics = new DisplayMetrics();
+		mDisplay.getMetrics(metrics);
+		heightDp = (int) (((double) ((realHeightPx == UNSUPPORTED) ? heightPx : realHeightPx) / metrics.density) + 0.5);
+
         widthDp = UNSUPPORTED;
         smallestDp = UNSUPPORTED;
         if ( Build.VERSION.SDK_INT >= 13 ) {
             widthDp = mConfig.screenWidthDp;
             smallestDp = mConfig.smallestScreenWidthDp;
+        } else {
+        	widthDp = (int) (((double) ((realWidthPx == UNSUPPORTED) ? widthPx : realWidthPx) / metrics.density) + 0.5);
+        	smallestDp = ( widthDp <= heightDp ) ? widthDp : heightDp;
         }
-        
-		DisplayMetrics metrics = new DisplayMetrics();
-		mDisplay.getMetrics(metrics);
-		
-		heightDp = (int) (((double) ((realHeightPx == UNSUPPORTED) ? heightPx : realHeightPx) / metrics.density) + 0.5);
 
 		// Nominal DPI
 		densityDpi = metrics.densityDpi;

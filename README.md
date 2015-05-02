@@ -1,11 +1,11 @@
-!app/src/main/res/drawable-hdpi/icon.png!
+![ScreenInfo Icon](app/src/main/res/drawable-hdpi/icon.png)
 
-h1. ScreenInfo
+# ScreenInfo
  
 A simple app to display the screen configuration parameters for an
 Android device.
 
-<code>
+```
 Copyright (c) 2011 Michael J. Portuesi (http://www.jotabout.com)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -25,9 +25,9 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
-</code>
+```
 
-h1. Privacy Policy (for users of the application)
+# Privacy Policy (for users of the application)
 
 ScreenInfo does not require personal information in order to use it. ScreenInfo
 does not utilize Android system permissions that could allow it to obtain
@@ -38,10 +38,10 @@ ScreenInfo collects information pertaining to one thing only: the display screen
 characteristics of your Android device.  It does not share information with other apps
 or services unless you explicitly choose to do so via the "Share" menu.
 
-h1. Contributors
+# Contributors
 
 The following individuals have contributed to the development of ScreenInfo,
 through code contributions.  Thank you!
 
-* "Chris Hatch":https://github.com/chatch
+- [Chris Hatch](https://github.com/chatch)
 

@@ -50,7 +50,6 @@ import android.view.WindowManager;
  * for display.
  * 
  */
-@SuppressWarnings("deprecation")	// Tell Lint to STFU about deprecated APIs - they are necessary for backwards compatibility
 public class Screen {
 	
 	public static final int UNSUPPORTED = -255;
@@ -337,6 +336,8 @@ public class Screen {
 			return "xhdpi";
 		case DisplayMetrics.DENSITY_XXHIGH:
 			return "xxhdpi";
+		case DisplayMetrics.DENSITY_XXXHIGH:
+			return "xxxhdpi";
 		}
 		
 		return ctx.getString(R.string.unknown);
@@ -506,6 +507,9 @@ public class Screen {
 			return "RGBA_8888";
 		case PixelFormat.RGBX_8888:
 			return "RGBX_8888";
+		case 5:
+			// Credit to Lawrence D'Oliveiro (https://github.com/ldo/screeninfo_android/)
+			return "BGRA_8888"; /* see platform/system/core/include/system/graphics.h */
 		case PixelFormat.TRANSLUCENT:
 			return "TRANSLUCENT";
 		case PixelFormat.TRANSPARENT:
@@ -518,9 +522,14 @@ public class Screen {
 			return "YUY2";
 		case ImageFormat.NV16:
 			return "NV16";
-		case 5:
-			// Credit to Lawrence D'Oliveiro (https://github.com/ldo/screeninfo_android/)
-			return "BGRA_8888"; /* see platform/system/core/include/system/graphics.h */
+		case ImageFormat.YUV_420_888:
+			return "YUY_420_888";
+		case ImageFormat.RAW10:
+			return "RAW10";
+		case ImageFormat.YV12:
+			return "YV12";
+		case ImageFormat.RAW_SENSOR:
+			return "RAW_SENSOR";
 		case UNSUPPORTED:
 			return ctx.getString( R.string.unsupported );
 		default:
@@ -543,32 +552,32 @@ public class Screen {
 	 * @return
 	 */
 	public String summaryText( Context ctx ) {
-		SummaryTextBuilder sb = new SummaryTextBuilder( ctx );
-		
-		sb.addLine( R.string.device_label, 							deviceModel() )
-		  .addLine( R.string.os_version_label, 						androidVersion() )
+		SummaryTextBuilder sb = new SummaryTextBuilder(ctx);
+
+		sb.addLine(R.string.device_label, 					deviceModel() )
+		  .addLine( R.string.os_version_label,					androidVersion() )
 		  .addLine( R.string.screen_class_label, 					sizeClassificationText(ctx) )
 		  .addLine( R.string.density_class_label, 					densityDpiText(ctx) )
 		  .addLine( R.string.total_width_pixels_label, 				realWidthPxText(ctx) )
-		  .addLine( R.string.total_height_pixels_label, 			realHeightPxText(ctx) )
-		  .addLine( R.string.width_pixels_label, 					widthPx() )
-		  .addLine( R.string.height_pixels_label, 					heightPx() )
+		  .addLine( R.string.total_height_pixels_label, 				realHeightPxText(ctx) )
+		  .addLine( R.string.width_pixels_label, 			widthPx() )
+		  .addLine( R.string.height_pixels_label, 			heightPx() )
 		  .addLine( R.string.width_dp_label, 						widthDp() )
-		  .addLine( R.string.height_dp_label, 						heightDp() )
+		  .addLine( R.string.height_dp_label, 					heightDp() )
 		  .addLine( R.string.smallest_dp_label, 					smallestDp() )
-		  .addLine( R.string.long_wide_label, 						screenLayoutText(ctx) )
+		  .addLine( R.string.long_wide_label, 					screenLayoutText(ctx) )
 		  .addLine( R.string.natural_orientation_label, 			defaultOrientationText(ctx) )
 		  .addLine( R.string.current_orientation_label, 			currentOrientationText() )
 		  .addLine( R.string.touchscreen_label, 					touchScreenText(ctx) )
 		  .addLine( R.string.screen_dpi_label, 						densityDpi() )
-		  .addLine( R.string.actual_xdpi_label, 					xdpi() )
-		  .addLine( R.string.actual_ydpi_label, 					ydpi() )
+		  .addLine( R.string.actual_xdpi_label, 							xdpi() )
+		  .addLine( R.string.actual_ydpi_label, 							ydpi() )
 		  .addLine( R.string.logical_density_label, 				density() )
 		  .addLine( R.string.font_scale_density_label, 				scaledDensity() )
 		  .addLine( R.string.computed_diagonal_size_inches_label, 	diagonalSizeInches() )
 		  .addLine( R.string.computed_diagonal_size_mm_label, 		diagonalSizeMillimeters() )
 		  .addLine( R.string.pixel_format_label, 					pixelFormatText(ctx) )
-		  .addLine( R.string.refresh_rate_label, 					refreshRate() )
+		  .addLine( R.string.refresh_rate_label, 				refreshRate() )
 		  .addNewLine()
 		  .addLine( R.string.play_store_link );
 		

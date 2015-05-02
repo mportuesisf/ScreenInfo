@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:orientation="vertical"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  android:paddingLeft="10dp"
+  android:paddingRight="10dp"
+  android:paddingBottom="10dp">
+  
+  <TextView
+    android:id="@+id/about_version"
+  	android:layout_width="match_parent"
+  	android:layout_height="wrap_content"
+  	android:text="@string/version">
+  </TextView>
+  
+  <TextView
+  	android:layout_width="match_parent"
+  	android:layout_height="wrap_content"
+  	android:text="@string/about">
+  </TextView>
+
+  <TextView
+  	android:layout_marginTop="10dp"
+  	android:layout_width="match_parent"
+  	android:layout_height="wrap_content"
+  	android:text="@string/email">
+  </TextView> 
+  
+  <TextView
+  	android:layout_width="match_parent"
+  	android:layout_height="wrap_content"
+  	android:text="@string/blog">
+  </TextView>
+  
+  <Button
+  	android:id="@+id/about_dismiss"
+  	android:layout_marginTop="10dp"
+  	android:layout_width="match_parent"
+  	android:layout_height="wrap_content"
+  	android:text="@string/about_dismiss"/>
+
+</LinearLayout>
+<!-- From: file:/C:/Users/portuesi/AndroidStudioProjects/ScreenInfo/app/src/main/res/layout/about_dialog.xml -->

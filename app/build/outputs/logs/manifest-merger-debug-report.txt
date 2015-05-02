@@ -1,0 +1,51 @@
+-- Merging decision tree log ---
+manifest
+ADDED from AndroidManifest.xml:2:1
+	xmlns:android
+		ADDED from AndroidManifest.xml:2:11
+	package
+		ADDED from AndroidManifest.xml:3:7
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:versionName
+		ADDED from AndroidManifest.xml:5:7
+	android:versionCode
+		ADDED from AndroidManifest.xml:4:7
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:installLocation
+		ADDED from AndroidManifest.xml:6:7
+uses-sdk
+ADDED from AndroidManifest.xml:8:2
+	android:targetSdkVersion
+		ADDED from AndroidManifest.xml:8:38
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+	android:minSdkVersion
+		ADDED from AndroidManifest.xml:8:12
+		INJECTED from AndroidManifest.xml:0:0
+		INJECTED from AndroidManifest.xml:0:0
+application
+ADDED from AndroidManifest.xml:10:5
+	android:label
+		ADDED from AndroidManifest.xml:11:39
+	android:allowBackup
+		ADDED from AndroidManifest.xml:12:9
+	android:icon
+		ADDED from AndroidManifest.xml:11:9
+activity#com.jotabout.screeninfo.ScreenInfo
+ADDED from AndroidManifest.xml:14:9
+	android:label
+		ADDED from AndroidManifest.xml:15:19
+	android:name
+		ADDED from AndroidManifest.xml:14:19
+intent-filter#android.intent.action.MAIN+android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:16:13
+action#android.intent.action.MAIN
+ADDED from AndroidManifest.xml:17:17
+	android:name
+		ADDED from AndroidManifest.xml:17:25
+category#android.intent.category.LAUNCHER
+ADDED from AndroidManifest.xml:18:17
+	android:name
+		ADDED from AndroidManifest.xml:18:27

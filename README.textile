@@ -1,4 +1,4 @@
-!res/drawable-hdpi/icon.png!
+!app/src/main/res/drawable-hdpi/icon.png!
 
 h1. ScreenInfo
  

@@ -1,3 +1,5 @@
+!res/drawable-hdpi/icon.png!
+
 h1. ScreenInfo
  
 A simple app to display the screen configuration parameters for an

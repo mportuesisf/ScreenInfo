@@ -93,6 +93,8 @@ public class ScreenInfo extends Activity {
      * Show basic information about the device.
      */
     public void showDeviceInfo() {
+		((TextView) findViewById(R.id.manufacturer_name)).setText( mScreen.manufacturerName() );
+		((TextView) findViewById(R.id.build_type)).setText( mScreen.buildType() );
         ((TextView) findViewById(R.id.device_name)).setText( mScreen.deviceModel() );
         ((TextView) findViewById(R.id.os_version)) .setText( mScreen.androidVersion() );
     }

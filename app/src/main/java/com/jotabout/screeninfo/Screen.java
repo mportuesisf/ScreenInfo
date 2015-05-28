@@ -188,7 +188,23 @@ public class Screen {
 		// Refresh rate
         refreshRate = mDisplay.getRefreshRate();
 	}
-	
+
+	/**
+	 * Build type: "user" or "eng"
+	 * @return
+	 */
+	public String buildType() {
+		return Build.TYPE;
+	}
+
+	/**
+	 * Manufacturer name
+	 * @return
+	 */
+	public String manufacturerName() {
+		return Build.MANUFACTURER;
+	}
+
 	/**
 	 * Model name of device.
 	 * @return

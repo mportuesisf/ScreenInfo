@@ -17,6 +17,40 @@
             <TableRow>
 
                 <TextView
+                    android:id="@+id/manufacturer_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/manufacturer_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView
+                    android:id="@+id/manufacturer_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
+                    android:id="@+id/build_type_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="@dimen/label_spacing"
+                    android:gravity="right"
+                    android:text="@string/build_type_label"
+                    android:textAppearance="@style/label" />
+
+                <TextView
+                    android:id="@+id/build_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </TableRow>
+
+            <TableRow>
+
+                <TextView
                     android:id="@+id/device_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

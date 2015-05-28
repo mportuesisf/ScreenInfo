@@ -12,6 +12,8 @@
     <string name="blog">Blog: digitaldumptruck.jotabout.com</string>
     <string name="about_dismiss">That\'s nice</string>
     <string name="play_store_link">Report prepared by ScreenInfo. Get yourself a copy: https://play.google.com/store/apps/details?id=com.jotabout.screeninfo</string>
+    <string name="manufacturer_label">Manufacturer:</string>
+    <string name="build_type_label">Build Type:</string>
     <string name="device_label">Device Name:</string>
     <string name="os_version_label">Android Version:</string>
     <string name="resource_selection_label">Framework resource selection</string>
